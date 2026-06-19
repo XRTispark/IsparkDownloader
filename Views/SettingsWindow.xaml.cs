@@ -22,8 +22,7 @@ namespace IsparkDownloader2.Views
         {
             var config = _configManager.Config;
             SavePathTextBox.Text = config.DefaultSavePath;
-            ThreadCountTextBox.Text = config.DefaultThreadCount.ToString();
-            MaxConcurrentTextBox.Text = config.MaxConcurrentDownloads.ToString();
+            MaxThreadsTextBox.Text = config.DefaultThreadCount.ToString();
             SpeedLimitTextBox.Text = (config.DefaultSpeedLimit / 1024).ToString();
             AutoStartCheckBox.IsChecked = config.AutoStartDownload;
             NotificationCheckBox.IsChecked = config.ShowNotificationOnComplete;
@@ -40,8 +39,7 @@ namespace IsparkDownloader2.Views
             {
                 var config = _configManager.Config;
                 config.DefaultSavePath = SavePathTextBox.Text;
-                config.DefaultThreadCount = int.Parse(ThreadCountTextBox.Text);
-                config.MaxConcurrentDownloads = int.Parse(MaxConcurrentTextBox.Text);
+                config.DefaultThreadCount = int.Parse(MaxThreadsTextBox.Text);
                 config.DefaultSpeedLimit = long.Parse(SpeedLimitTextBox.Text) * 1024;
                 config.AutoStartDownload = AutoStartCheckBox.IsChecked ?? true;
                 config.ShowNotificationOnComplete = NotificationCheckBox.IsChecked ?? true;

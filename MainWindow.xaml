@@ -6,11 +6,11 @@
         xmlns:vm="clr-namespace:IsparkDownloader2.ViewModels"
         xmlns:conv="clr-namespace:IsparkDownloader2.Converters"
         mc:Ignorable="d"
-        Title="IsparkDownloader2 - 现代化下载工具" 
-        Height="700" Width="1100"
-        MinHeight="500" MinWidth="800"
+        Title="IsparkDownloader" 
+        Height="720" Width="1200"
+        MinHeight="520" MinWidth="900"
         WindowStartupLocation="CenterScreen"
-        Background="#FF1E1E1E">
+        Style="{StaticResource ModernWindow}">
 
     <Window.DataContext>
         <vm:MainViewModel x:Name="ViewModel"/>
@@ -20,113 +20,8 @@
         <conv:StatusToColorConverter x:Key="StatusToColorConverter"/>
         <conv:SpeedToVisibilityConverter x:Key="SpeedToVisibilityConverter"/>
 
-        <Style x:Key="ModernButton" TargetType="Button">
-            <Setter Property="Background" Value="#FF3C3C3C"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="15,8"/>
-            <Setter Property="Margin" Value="4"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="4"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FF505050"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#FF2A2A2A"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0.5"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ActionButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
-            <Setter Property="Background" Value="#FF0078D4"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="4"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FF106EBE"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#FF005A9E"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
-            <Setter Property="Background" Value="#FFD32F2F"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="4"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FFC62828"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#FFB71C1C"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ModernTextBox" TargetType="TextBox">
-            <Setter Property="Background" Value="#FF2D2D2D"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#FF3C3C3C"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="10,8"/>
-            <Setter Property="CaretBrush" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4">
-                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ModernListView" TargetType="ListView">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-        </Style>
-
         <DataTemplate x:Key="TaskItemTemplate">
-            <Border Background="#FF2D2D2D" CornerRadius="6" Margin="0,4" Padding="12">
+            <Border Background="{StaticResource BgElevatedBrush}" CornerRadius="10" Padding="14" Margin="0,3">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -134,7 +29,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!-- 第一行：文件名、类型标签和状态 -->
+                    <!-- Row 1: File name, type badge, status -->
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -142,39 +37,39 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- BT 类型标签 -->
-                        <Border Grid.Column="0" 
-                                Background="#FF0078D4" 
-                                CornerRadius="3" 
-                                Padding="5,2" 
-                                Margin="0,0,8,0"
+                        <Border Grid.Column="0"
+                                Background="{StaticResource AccentBrush}"
+                                CornerRadius="4"
+                                Padding="6,3"
+                                Margin="0,0,10,0"
                                 VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Type}" 
-                                       Foreground="White" 
+                            <TextBlock Text="{Binding Type}"
+                                       Foreground="#0D1117"
                                        FontSize="10"
                                        FontWeight="Bold"/>
                         </Border>
 
-                        <TextBlock Grid.Column="1" 
-                                   Text="{Binding FileName}" 
-                                   Foreground="White" 
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding FileName}"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
                                    FontSize="14"
                                    FontWeight="SemiBold"
                                    TextTrimming="CharacterEllipsis"
                                    VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" 
-                                   Text="{Binding StatusText}" 
+
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding StatusText}"
                                    Foreground="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
                                    FontSize="12"
                                    Margin="10,0,0,0"
                                    VerticalAlignment="Center"/>
                     </Grid>
 
-                    <!-- 第二行：进度条 -->
-                    <Grid Grid.Row="1" Margin="0,8">
-                        <Border Background="#FF1E1E1E" CornerRadius="3" Height="6" x:Name="ProgressBarBg">
-                            <Border Background="#FF0078D4" 
-                                    CornerRadius="3"
+                    <!-- Row 2: Progress bar -->
+                    <Grid Grid.Row="1" Margin="0,10">
+                        <Border Background="{StaticResource BgSurfaceBrush}" CornerRadius="4" Height="8" x:Name="ProgressBarBg">
+                            <Border Background="{StaticResource AccentBrush}"
+                                    CornerRadius="4"
                                     HorizontalAlignment="Left">
                                 <Border.Width>
                                     <MultiBinding Converter="{StaticResource ProgressToWidthConverter}">
@@ -186,7 +81,7 @@
                         </Border>
                     </Grid>
 
-                    <!-- 第三行：大小、速度、种子/用户数、进度百分比 -->
+                    <!-- Row 3: Size, seeds, speed, percentage -->
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -194,31 +89,31 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding SizeText}" 
-                                   Foreground="#FFAAAAAA" 
+                        <TextBlock Text="{Binding SizeText}"
+                                   Foreground="{StaticResource TextMutedBrush}"
                                    FontSize="11"
                                    VerticalAlignment="Center"/>
 
-                        <!-- BT 种子/用户数 -->
-                        <TextBlock Grid.Column="1" 
-                                   Text="{Binding SeedsPeersText}" 
-                                   Foreground="#FF81C784"
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding SeedsPeersText}"
+                                   Foreground="{StaticResource SuccessBrush}"
                                    FontSize="11"
-                                   Margin="10,0,0,0"
+                                   Margin="12,0,0,0"
                                    VerticalAlignment="Center"/>
 
-                        <TextBlock Grid.Column="2" 
-                                   Text="{Binding SpeedText}" 
-                                   Foreground="#FF4FC3F7"
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding SpeedText}"
+                                   Foreground="{StaticResource InfoBrush}"
                                    FontSize="11"
-                                   Margin="10,0,0,0"
+                                   Margin="12,0,0,0"
                                    Visibility="{Binding Speed, Converter={StaticResource SpeedToVisibilityConverter}}"
                                    VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" 
-                                   Text="{Binding Progress, StringFormat={}{0}%}" 
-                                   Foreground="White"
+
+                        <TextBlock Grid.Column="3"
+                                   Text="{Binding Progress, StringFormat={}{0}%}"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
                                    FontSize="11"
-                                   Margin="10,0,0,0"
+                                   Margin="12,0,0,0"
                                    VerticalAlignment="Center"/>
                     </Grid>
                 </Grid>
@@ -234,183 +129,157 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- 标题栏 -->
-        <Border Grid.Row="0" Background="#FF252525" Padding="15,10">
+        <!-- Title bar -->
+        <Border Grid.Row="0" Background="{StaticResource BgElevatedBrush}" Padding="18,12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="IsparkDownloader2" 
-                           Foreground="White" 
-                           FontSize="18" 
-                           FontWeight="Bold"
-                           VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1" 
-                           Text="现代化下载工具" 
-                           Foreground="#FFAAAAAA" 
-                           FontSize="12"
-                           VerticalAlignment="Center"
-                           Margin="10,0,0,0"/>
-                <Button Grid.Column="2" 
-                        Content="设置" 
-                        Style="{StaticResource ModernButton}"
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="&#x2B07;" FontSize="20" Foreground="{StaticResource AccentBrush}" Margin="0,0,10,0"/>
+                    <TextBlock Text="IsparkDownloader"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="v2.0.0"
+                               Foreground="{StaticResource TextMutedBrush}"
+                               FontSize="11"
+                               VerticalAlignment="Center"
+                               Margin="8,0,0,0"/>
+                </StackPanel>
+                <Button Grid.Column="2"
+                        Content="&#x2699; 设置"
+                        Style="{StaticResource GhostButton}"
                         Command="{Binding ShowSettingsCommand}"
-                        Padding="12,6"/>
+                        Padding="10,6"/>
             </Grid>
         </Border>
 
-        <!-- 添加任务区域 -->
-        <Border Grid.Row="1" Background="#FF252525" Padding="15" Margin="0,1">
+        <!-- Add task area -->
+        <Border Grid.Row="1" Background="{StaticResource BgElevatedBrush}" Padding="18,14" Margin="0,1">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Row="0" Grid.Column="0" 
+                <TextBox Grid.Column="0"
                          Style="{StaticResource ModernTextBox}"
                          Text="{Binding NewUrl, UpdateSourceTrigger=PropertyChanged}"
                          VerticalContentAlignment="Center"
                          FontSize="13">
                     <TextBox.ToolTip>
-                        <ToolTip Content="输入下载链接 (支持 HTTP/HTTPS/FTP/磁力链接)"/>
+                        <ToolTip Content="输入下载链接 (支持 HTTP/HTTPS/FTP/磁力链接/网盘分享)"/>
                     </TextBox.ToolTip>
                 </TextBox>
-                <Button Grid.Row="0" Grid.Column="1" 
-                        Content="添加任务" 
-                        Style="{StaticResource ActionButton}"
+                <Button Grid.Column="1"
+                        Content="&#x2795; 添加任务"
+                        Style="{StaticResource PrimaryButton}"
                         Command="{Binding AddTaskCommand}"
                         Margin="10,0,0,0"
                         FontSize="13"/>
-                <Button Grid.Row="0" Grid.Column="2" 
-                        Content="浏览..." 
-                        Style="{StaticResource ModernButton}"
+                <Button Grid.Column="2"
+                        Content="&#x1F4C1;"
+                        Style="{StaticResource BaseButton}"
                         Command="{Binding BrowseSavePathCommand}"
-                        Margin="5,0,0,0"
-                        FontSize="13"/>
-
+                        Margin="6,0,0,0"
+                        FontSize="14"
+                        Padding="10,7"/>
             </Grid>
         </Border>
 
-        <!-- 任务列表 -->
-        <Border Grid.Row="2" Background="#FF1E1E1E" Margin="15">
+        <!-- Task list -->
+        <Border Grid.Row="2" Background="{StaticResource BgBrush}" Padding="18,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- 工具栏 -->
-                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-                    <Button Content="开始" 
-                            Style="{StaticResource ActionButton}"
+                <!-- Toolbar -->
+                <WrapPanel Grid.Row="0" Margin="0,0,0,12">
+                    <Button Content="&#x25B6; 开始"
+                            Style="{StaticResource PrimaryButton}"
                             Command="{Binding StartTaskCommand}"
-                            Padding="15,6"/>
-                    <Button Content="暂停" 
-                            Style="{StaticResource ModernButton}"
+                            Padding="12,6"/>
+                    <Button Content="&#x23F8; 暂停"
+                            Style="{StaticResource BaseButton}"
                             Command="{Binding PauseTaskCommand}"
-                            Padding="15,6"/>
-                    <Button Content="删除" 
+                            Padding="12,6"/>
+                    <Button Content="&#x1F5D1; 删除"
                             Style="{StaticResource DangerButton}"
                             Command="{Binding RemoveTaskCommand}"
-                            Padding="15,6"/>
-                    <Separator Margin="10,0" Background="#FF3C3C3C" Style="{x:Null}" Width="1"/>
-                    <Button Content="全部开始" 
-                            Style="{StaticResource ActionButton}"
+                            Padding="12,6"/>
+                    <Rectangle Width="1" Height="24" Fill="{StaticResource BorderBrush}" Margin="8,4"/>
+                    <Button Content="&#x25B6;&#x25B6; 全部开始"
+                            Style="{StaticResource PrimaryButton}"
                             Command="{Binding StartAllCommand}"
-                            Padding="15,6"/>
-                    <Button Content="全部暂停" 
-                            Style="{StaticResource ModernButton}"
+                            Padding="12,6"/>
+                    <Button Content="&#x23F8;&#x23F8; 全部暂停"
+                            Style="{StaticResource BaseButton}"
                             Command="{Binding PauseAllCommand}"
-                            Padding="15,6"/>
-                    <Button Content="清除已完成" 
-                            Style="{StaticResource ModernButton}"
+                            Padding="12,6"/>
+                    <Button Content="&#x2713; 清除已完成"
+                            Style="{StaticResource BaseButton}"
                             Command="{Binding RemoveCompletedCommand}"
-                            Padding="15,6"/>
-                    <Button Content="打开文件夹" 
-                            Style="{StaticResource ModernButton}"
+                            Padding="12,6"/>
+                    <Button Content="&#x1F4C2; 打开文件夹"
+                            Style="{StaticResource BaseButton}"
                             Command="{Binding OpenFolderCommand}"
-                            Padding="15,6"/>
-                    <Separator Margin="10,0" Background="#FF3C3C3C" Style="{x:Null}" Width="1"/>
-                    <!-- BT 相关按钮 -->
-                    <Button Content="选择种子" 
-                            Style="{StaticResource ActionButton}"
+                            Padding="12,6"/>
+                    <Rectangle Width="1" Height="24" Fill="{StaticResource BorderBrush}" Margin="8,4"/>
+                    <Button Content="&#x1F4E5; 种子"
+                            Style="{StaticResource PrimaryButton}"
                             Command="{Binding SelectTorrentFileCommand}"
-                            Padding="15,6"/>
-                    <Button Content="BT 详情" 
-                            Style="{StaticResource ModernButton}"
-                            Command="{Binding ShowTorrentDetailCommand}"
-                            Padding="15,6"/>
-                    <Button Content="Tracker" 
-                            Style="{StaticResource ModernButton}"
+                            Padding="12,6"/>
+                    <Button Content="&#x1F527; Tracker"
+                            Style="{StaticResource BaseButton}"
                             Command="{Binding ShowTrackerConfigCommand}"
-                            Padding="15,6"/>
-                    <Separator Margin="10,0" Background="#FF3C3C3C" Style="{x:Null}" Width="1"/>
-                    <!-- 网盘相关按钮 -->
-                    <Button Content="网盘配置" 
-                            Style="{StaticResource ModernButton}"
+                            Padding="12,6"/>
+                    <Rectangle Width="1" Height="24" Fill="{StaticResource BorderBrush}" Margin="8,4"/>
+                    <Button Content="&#x2601; 网盘"
+                            Style="{StaticResource BaseButton}"
                             Command="{Binding ShowCloudDriveConfigCommand}"
-                            Padding="15,6"/>
-                    <Button Content="解析分享" 
-                            Style="{StaticResource ActionButton}"
+                            Padding="12,6"/>
+                    <Button Content="&#x1F517; 解析分享"
+                            Style="{StaticResource PrimaryButton}"
                             Command="{Binding ParseCloudShareCommand}"
-                            Padding="15,6"/>
-                    <Separator Margin="10,0" Background="#FF3C3C3C" Style="{x:Null}" Width="1"/>
-                    <!-- 更新按钮 -->
-                    <Button Content="检查更新" 
-                            Style="{StaticResource ModernButton}"
+                            Padding="12,6"/>
+                    <Rectangle Width="1" Height="24" Fill="{StaticResource BorderBrush}" Margin="8,4"/>
+                    <Button Content="&#x1F504; 检查更新"
+                            Style="{StaticResource BaseButton}"
                             Command="{Binding CheckUpdateCommand}"
-                            Padding="15,6"/>
-                </StackPanel>
+                            Padding="12,6"/>
+                </WrapPanel>
 
-                <!-- 列表 -->
-                <ListView Grid.Row="1" 
+                <!-- List -->
+                <ListView Grid.Row="1"
                           Style="{StaticResource ModernListView}"
                           ItemsSource="{Binding Tasks}"
                           SelectedItem="{Binding SelectedTask}"
                           ItemTemplate="{StaticResource TaskItemTemplate}"
-                          ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="Padding" Value="0"/>
-                            <Setter Property="Margin" Value="0,2"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="#FF3C3C3C"/>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FF333333"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
+                          ItemContainerStyle="{StaticResource ModernListViewItem}"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"/>
             </Grid>
         </Border>
 
-        <!-- 状态栏 -->
-        <Border Grid.Row="3" Background="#FF252525" Padding="15,8">
+        <!-- Status bar -->
+        <Border Grid.Row="3" Background="{StaticResource BgElevatedBrush}" Padding="18,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding StatusText}" 
-                           Foreground="#FFAAAAAA" 
+                <TextBlock Text="{Binding StatusText}"
+                           Foreground="{StaticResource TextSecondaryBrush}"
                            FontSize="12"
                            VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1" 
-                           Text="v2.0.0" 
-                           Foreground="#FF666666" 
+                <TextBlock Grid.Column="1"
+                           Text="IsparkDownloader v2.0.0"
+                           Foreground="{StaticResource TextMutedBrush}"
                            FontSize="11"
                            VerticalAlignment="Center"/>
             </Grid>
