@@ -1,0 +1,50 @@
+# Build outputs
+bin/
+obj/
+publish/
+
+# User-specific files
+*.user
+*.suo
+*.userprefs
+
+# IDE
+.vs/
+.vscode/
+*.sln.ide
+
+# NuGet
+packages/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# App data
+setting.cfg
+seq_id
+statXml.xml
+statstorage_v5.xml
+upgrade_manifest.json
+
+# Thunder SDK leftovers
+DownloadSDK*
+xl_thunder_sdk.dll
+P2P*.dll
+TcpImpl.dll
+XUdt.dll
+XLLiveUDownload.dll
+XLBugHandler.dll
+XLReImport.dll
+XLTaskUpgrade.dll
+Http.dll
+Ftp.dll
+libcurl.dll
+libeay32.dll
+ssleay32.dll
+minizip.dll
+zlib1.dll
+msvcp90.dll
+msvcr90.dll
+ProxyVerifier.dll
+upnp.exe
