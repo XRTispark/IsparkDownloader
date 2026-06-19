@@ -1,0 +1,7 @@
+c:\Users\Ispark\Documents\IsparkDownloader2\publish\IsparkDownloader2.pdb
+c:\Users\Ispark\Documents\IsparkDownloader2\publish\D3DCompiler_47_cor3.dll
+c:\Users\Ispark\Documents\IsparkDownloader2\publish\PenImc_cor3.dll
+c:\Users\Ispark\Documents\IsparkDownloader2\publish\PresentationNative_cor3.dll
+c:\Users\Ispark\Documents\IsparkDownloader2\publish\vcruntime140_cor3.dll
+c:\Users\Ispark\Documents\IsparkDownloader2\publish\wpfgfx_cor3.dll
+c:\Users\Ispark\Documents\IsparkDownloader2\publish\IsparkDownloader2.exe

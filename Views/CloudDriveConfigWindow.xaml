@@ -1,0 +1,252 @@
+<Window x:Class="IsparkDownloader2.Views.CloudDriveConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="网盘账号配置" 
+        Height="500" Width="700"
+        WindowStartupLocation="CenterOwner"
+        Background="#FF1E1E1E"
+        ResizeMode="CanResize">
+
+    <Window.Resources>
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#FF3C3C3C"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF505050"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FF2A2A2A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ActionButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#FF0078D4"/>
+        </Style>
+
+        <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#FFD32F2F"/>
+        </Style>
+
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#FF2D2D2D"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF3C3C3C"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="#FFAAAAAA"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" Background="{TemplateBinding Background}" BorderThickness="0,0,0,2" BorderBrush="Transparent" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#FF0078D4"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="网盘账号管理" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <TabControl Grid.Row="1">
+            <!-- 百度网盘 -->
+            <TabItem Header="百度网盘">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="百度网盘开放平台 OAuth2 配置" Foreground="White" FontSize="13" Margin="0,0,0,10"/>
+
+                    <Grid Grid.Row="1" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="AppKey:" Foreground="#FFAAAAAA" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="BaiduClientId" Style="{StaticResource ModernTextBox}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="2" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="SecretKey:" Foreground="#FFAAAAAA" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="BaiduClientSecret" Style="{StaticResource ModernTextBox}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="3" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="授权码:" Foreground="#FFAAAAAA" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="BaiduAuthCode" Style="{StaticResource ModernTextBox}"/>
+                    </Grid>
+
+                    <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10">
+                        <Button Content="获取授权链接" Style="{StaticResource ModernButton}" Click="GetBaiduAuthUrl_Click"/>
+                        <Button Content="登录" Style="{StaticResource ActionButton}" Click="BaiduLogin_Click"/>
+                        <Button Content="登出" Style="{StaticResource DangerButton}" Click="BaiduLogout_Click"/>
+                    </StackPanel>
+
+                    <Border Grid.Row="5" Background="#FF2D2D2D" CornerRadius="6" Padding="10">
+                        <TextBlock x:Name="BaiduStatusText" Text="未登录" Foreground="#FFAAAAAA" TextWrapping="Wrap"/>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- 阿里云盘 -->
+            <TabItem Header="阿里云盘">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="阿里云盘开放平台 OAuth2 配置" Foreground="White" FontSize="13" Margin="0,0,0,10"/>
+
+                    <Grid Grid.Row="1" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Client ID:" Foreground="#FFAAAAAA" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="AliyunClientId" Style="{StaticResource ModernTextBox}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="2" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Secret:" Foreground="#FFAAAAAA" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="AliyunClientSecret" Style="{StaticResource ModernTextBox}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="3" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="授权码:" Foreground="#FFAAAAAA" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="AliyunAuthCode" Style="{StaticResource ModernTextBox}"/>
+                    </Grid>
+
+                    <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10">
+                        <Button Content="获取授权链接" Style="{StaticResource ModernButton}" Click="GetAliyunAuthUrl_Click"/>
+                        <Button Content="登录" Style="{StaticResource ActionButton}" Click="AliyunLogin_Click"/>
+                        <Button Content="登出" Style="{StaticResource DangerButton}" Click="AliyunLogout_Click"/>
+                    </StackPanel>
+
+                    <Border Grid.Row="5" Background="#FF2D2D2D" CornerRadius="6" Padding="10">
+                        <TextBlock x:Name="AliyunStatusText" Text="未登录" Foreground="#FFAAAAAA" TextWrapping="Wrap"/>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- 夸克网盘 -->
+            <TabItem Header="夸克网盘">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="夸克网盘 Cookie 登录" Foreground="White" FontSize="13" Margin="0,0,0,10"/>
+                    <TextBlock Grid.Row="1" Text="夸克网盘未提供官方开放平台，需手动获取 Cookie 中的 ctoken" Foreground="#FFAAAAAA" FontSize="11" Margin="0,0,0,10"/>
+
+                    <Grid Grid.Row="2" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="ctoken:" Foreground="#FFAAAAAA" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="QuarkToken" Style="{StaticResource ModernTextBox}"/>
+                    </Grid>
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,10">
+                        <Button Content="登录" Style="{StaticResource ActionButton}" Click="QuarkLogin_Click"/>
+                        <Button Content="登出" Style="{StaticResource DangerButton}" Click="QuarkLogout_Click"/>
+                    </StackPanel>
+
+                    <Border Grid.Row="4" Background="#FF2D2D2D" CornerRadius="6" Padding="10">
+                        <TextBlock x:Name="QuarkStatusText" Text="未登录&#x0a;获取方式: 登录 pan.quark.cn 后，在浏览器开发者工具(F12)的 Application/Cookies 中查找 ctoken 值" Foreground="#FFAAAAAA" TextWrapping="Wrap"/>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <Button Grid.Row="2" Content="关闭" Style="{StaticResource ModernButton}" HorizontalAlignment="Right"
+                Click="CloseButton_Click" Margin="0,10,0,0" Padding="20,8"/>
+    </Grid>
+</Window>
