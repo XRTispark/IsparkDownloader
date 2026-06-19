@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using IsparkDownloader2.Core;
 using Microsoft.Win32;
@@ -76,6 +77,19 @@ namespace IsparkDownloader2.Views
             if (dialog.ShowDialog() == true)
             {
                 SavePathTextBox.Text = dialog.FolderName;
+            }
+        }
+
+        private async void CheckUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var app = (App)Application.Current;
+                await app.CheckForUpdateAsync(silent: false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"检查更新失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

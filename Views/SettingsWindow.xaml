@@ -148,6 +148,15 @@
 
                 <CheckBox x:Name="AutoCheckUpdateCheckBox" Content="启动时自动检查更新" Style="{StaticResource SettingCheckBox}" Margin="0,5"/>
 
+                <Grid Margin="0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="手动检查是否有新版本可用" Foreground="#FF8B8BA7" FontSize="12" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Content="检查更新" Style="{StaticResource ModernButton}" Padding="12,6" Click="CheckUpdate_Click"/>
+                </Grid>
+
                 <Separator Margin="0,15" Background="#FF3C3C3C"/>
 
                 <!-- 网络设置 -->
