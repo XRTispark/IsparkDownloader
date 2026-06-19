@@ -27,6 +27,7 @@ namespace IsparkDownloader2.Views
             AutoStartCheckBox.IsChecked = config.AutoStartDownload;
             NotificationCheckBox.IsChecked = config.ShowNotificationOnComplete;
             AutoRemoveCheckBox.IsChecked = config.AutoRemoveCompleted;
+            AutoCheckUpdateCheckBox.IsChecked = _configManager.Get("AutoCheckUpdate", true);
             TimeoutTextBox.Text = config.ConnectionTimeout.ToString();
             RetryCountTextBox.Text = config.RetryCount.ToString();
             UserAgentTextBox.Text = config.UserAgent;
@@ -47,6 +48,7 @@ namespace IsparkDownloader2.Views
                 config.ConnectionTimeout = int.Parse(TimeoutTextBox.Text);
                 config.RetryCount = int.Parse(RetryCountTextBox.Text);
                 config.UserAgent = UserAgentTextBox.Text;
+                _configManager.Set("AutoCheckUpdate", AutoCheckUpdateCheckBox.IsChecked ?? true);
 
                 _configManager.Save();
                 DialogResult = true;

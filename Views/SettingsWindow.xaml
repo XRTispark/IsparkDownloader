@@ -143,6 +143,13 @@
 
                 <Separator Margin="0,15" Background="#FF3C3C3C"/>
 
+                <!-- 更新设置 -->
+                <TextBlock Text="更新设置" Foreground="#FF0078D4" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
+
+                <CheckBox x:Name="AutoCheckUpdateCheckBox" Content="启动时自动检查更新" Style="{StaticResource SettingCheckBox}" Margin="0,5"/>
+
+                <Separator Margin="0,15" Background="#FF3C3C3C"/>
+
                 <!-- 网络设置 -->
                 <TextBlock Text="网络设置" Foreground="#FF0078D4" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
 

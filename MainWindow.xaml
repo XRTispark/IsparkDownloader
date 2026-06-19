@@ -361,6 +361,12 @@
                             Style="{StaticResource ActionButton}"
                             Command="{Binding ParseCloudShareCommand}"
                             Padding="15,6"/>
+                    <Separator Margin="10,0" Background="#FF3C3C3C" Style="{x:Null}" Width="1"/>
+                    <!-- 更新按钮 -->
+                    <Button Content="检查更新" 
+                            Style="{StaticResource ModernButton}"
+                            Command="{Binding CheckUpdateCommand}"
+                            Padding="15,6"/>
                 </StackPanel>
 
                 <!-- 列表 -->

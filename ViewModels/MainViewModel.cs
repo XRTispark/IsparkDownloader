@@ -103,6 +103,8 @@ namespace IsparkDownloader2.ViewModels
         // 网盘相关命令
         public ICommand ShowCloudDriveConfigCommand { get; }
         public ICommand ParseCloudShareCommand { get; }
+        // 更新命令
+        public ICommand CheckUpdateCommand { get; }
 
         public AppConfig Config => _configManager.Config;
         public CloudDriveEngine CloudDriveEngine => _taskManager.CloudDriveEngine;
@@ -140,6 +142,7 @@ namespace IsparkDownloader2.ViewModels
             ShowTorrentDetailCommand = new RelayCommand(_ => ShowTorrentDetail(), _ => SelectedTask != null && (SelectedTask.Type == DownloadType.Magnet || SelectedTask.Type == DownloadType.Torrent));
             ShowCloudDriveConfigCommand = new RelayCommand(_ => ShowCloudDriveConfig());
             ParseCloudShareCommand = new RelayCommand(_ => ParseCloudShareLink(), _ => !string.IsNullOrWhiteSpace(NewUrl));
+            CheckUpdateCommand = new RelayCommand(_ => CheckUpdate(), _ => true);
 
             UpdateStats();
         }
@@ -304,6 +307,25 @@ namespace IsparkDownloader2.ViewModels
             {
                 MessageBox.Show($"解析分享链接时出错: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
                 StatusText = "解析出错";
+            }
+        }
+
+        // ===== 更新方法 =====
+
+        /// <summary>手动检查更新</summary>
+        private async void CheckUpdate()
+        {
+            StatusText = "正在检查更新...";
+            try
+            {
+                var app = (App)Application.Current;
+                await app.CheckForUpdateAsync(silent: false);
+                StatusText = "更新检查完成";
+            }
+            catch (Exception ex)
+            {
+                StatusText = "检查更新失败";
+                MessageBox.Show($"检查更新时出错: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
