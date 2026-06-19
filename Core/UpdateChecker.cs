@@ -64,7 +64,8 @@ namespace IsparkDownloader2.Core
         {
             try
             {
-                var apiUrl = $"https://api.github.com/repos/{_owner}/{_repo}/releases/latest";
+                // GitHub API 也通过加速代理
+                var apiUrl = GitHubProxy.GetProxiedUrl($"https://api.github.com/repos/{_owner}/{_repo}/releases/latest");
                 var response = await _httpClient.GetAsync(apiUrl);
 
                 if (!response.IsSuccessStatusCode)
@@ -167,9 +168,10 @@ namespace IsparkDownloader2.Core
                 Directory.CreateDirectory(tempDir);
                 Directory.CreateDirectory(extractPath);
 
-                // 下载更新包
+                // 下载更新包（GitHub 链接加速）
                 progress?.Report(0.05);
-                await DownloadFileAsync(versionInfo.DownloadUrl, zipPath, progress);
+                var proxiedDownloadUrl = GitHubProxy.GetProxiedUrl(versionInfo.DownloadUrl);
+                await DownloadFileAsync(proxiedDownloadUrl, zipPath, progress);
                 progress?.Report(0.6);
 
                 // 解压更新包

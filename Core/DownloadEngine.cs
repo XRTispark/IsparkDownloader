@@ -56,6 +56,11 @@ namespace IsparkDownloader2.Core
             {
                 task.Status = DownloadStatus.Downloading;
 
+                // GitHub 链接自动加速
+                var downloadUrl = GitHubProxy.GetProxiedUrl(task.Url);
+                if (downloadUrl != task.Url)
+                    task.Url = downloadUrl;
+
                 // 获取文件信息
                 var (supportsRange, totalSize) = await GetFileInfoAsync(task.Url);
                 task.TotalSize = totalSize;
