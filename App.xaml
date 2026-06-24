@@ -11,6 +11,9 @@
             </ResourceDictionary.MergedDictionaries>
             <conv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <conv:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+            <conv:BoolToYesNoConverter x:Key="BoolToYesNoConverter"/>
+            <conv:DownloadTypeToVisibilityConverter x:Key="DownloadTypeToVisibilityConverter"/>
+            <conv:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

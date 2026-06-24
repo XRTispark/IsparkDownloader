@@ -18,10 +18,12 @@ namespace IsparkDownloader2.Core
         private readonly TorrentEngine _torrentEngine;
         private readonly CloudDriveEngine _cloudDriveEngine;
         private readonly TrackerConfigManager _trackerConfig;
+        private readonly BrowserSimulator _browserSimulator;
         private readonly string _configPath;
         private readonly System.Timers.Timer _saveTimer;
         private readonly int _maxConcurrentDownloads;
         private readonly object _lock = new();
+        private bool _browserSimInitialized;
 
         public ObservableCollection<DownloadTask> Tasks => _tasks;
 
@@ -30,17 +32,40 @@ namespace IsparkDownloader2.Core
         public DownloadEngine HttpEngine => _httpEngine;
         public CloudDriveEngine CloudDriveEngine => _cloudDriveEngine;
 
+        /// <summary>
+        /// 延迟初始化的浏览器模拟器，首次访问时才加载
+        /// </summary>
+        public BrowserSimulator BrowserSimulator
+        {
+            get
+            {
+                if (!_browserSimInitialized)
+                {
+                    lock (_lock)
+                    {
+                        if (!_browserSimInitialized)
+                        {
+                            _browserSimInitialized = true;
+                        }
+                    }
+                }
+                return _browserSimulator;
+            }
+        }
+
         public event EventHandler? TaskAdded;
         public event EventHandler? TaskRemoved;
         public event EventHandler? TaskStatusChanged;
 
         public TaskManager(string configPath, int maxConcurrentDownloads = 3)
         {
-            _httpEngine = new DownloadEngine();
+            _browserSimulator = new BrowserSimulator();
+            var configManager = new ConfigManager();
+            _httpEngine = new DownloadEngine(configManager, _browserSimulator);
             _torrentEngine = new TorrentEngine();
             var cloudConfigPath = Path.Combine(Path.GetDirectoryName(configPath)!, "cloud_accounts.json");
             var cloudConfigManager = new CloudDriveConfigManager(cloudConfigPath);
-            _cloudDriveEngine = new CloudDriveEngine(cloudConfigManager);
+            _cloudDriveEngine = new CloudDriveEngine(cloudConfigManager, _browserSimulator);
             _trackerConfig = new TrackerConfigManager();
             _configPath = configPath;
             _maxConcurrentDownloads = maxConcurrentDownloads;
@@ -48,6 +73,12 @@ namespace IsparkDownloader2.Core
             // 订阅 BT 引擎事件
             _torrentEngine.ProgressChanged += OnTorrentProgressChanged;
             _torrentEngine.DownloadCompleted += OnTorrentDownloadCompleted;
+
+            // 订阅 HTTP 引擎事件
+            _httpEngine.ProgressChanged += OnHttpProgressChanged;
+            _httpEngine.StatusChanged += OnHttpStatusChanged;
+            _httpEngine.DownloadCompleted += OnHttpDownloadCompleted;
+            _httpEngine.DownloadFailed += OnHttpDownloadFailed;
 
             // 自动保存任务列表
             _saveTimer = new System.Timers.Timer(10000);
@@ -139,7 +170,7 @@ namespace IsparkDownloader2.Core
                         else if (task.Type == DownloadType.CloudDrive)
                             _cloudDriveEngine.CancelDownload(taskId);
                         else
-                            _httpEngine.CancelDownload(taskId);
+                            _httpEngine.Cancel();
                     }
                     _tasks.Remove(task);
                     TaskRemoved?.Invoke(this, EventArgs.Empty);
@@ -167,7 +198,7 @@ namespace IsparkDownloader2.Core
             else if (task.Type == DownloadType.CloudDrive)
                 _cloudDriveEngine.PauseDownload(taskId);
             else
-                _httpEngine.PauseDownload(taskId);
+                _httpEngine.Pause();
 
             task.Status = DownloadStatus.Paused;
             TaskStatusChanged?.Invoke(this, EventArgs.Empty);
@@ -185,7 +216,7 @@ namespace IsparkDownloader2.Core
                 else if (task.Type == DownloadType.CloudDrive)
                     _cloudDriveEngine.CancelDownload(taskId);
                 else
-                    _httpEngine.CancelDownload(taskId);
+                    _httpEngine.Cancel();
             }
             task.Status = DownloadStatus.Cancelled;
             TaskStatusChanged?.Invoke(this, EventArgs.Empty);
@@ -285,15 +316,16 @@ namespace IsparkDownloader2.Core
                 var nextTask = _tasks.FirstOrDefault(t => t.Status == DownloadStatus.Pending);
                 if (nextTask == null) break;
 
+                // 立即将任务状态改为 Downloading，防止 while 循环重复处理同一个任务
+                nextTask.Status = DownloadStatus.Downloading;
+                TaskStatusChanged?.Invoke(this, EventArgs.Empty);
+
                 if (nextTask.Type == DownloadType.Magnet || nextTask.Type == DownloadType.Torrent)
                 {
                     _ = Task.Run(async () =>
                     {
                         try
                         {
-                            nextTask.Status = DownloadStatus.Downloading;
-                            TaskStatusChanged?.Invoke(this, EventArgs.Empty);
-
                             if (!_torrentEngine.IsRunning)
                                 await _torrentEngine.StartAsync();
 
@@ -324,9 +356,6 @@ namespace IsparkDownloader2.Core
                     {
                         try
                         {
-                            nextTask.Status = DownloadStatus.Downloading;
-                            TaskStatusChanged?.Invoke(this, EventArgs.Empty);
-
                             // 解析存储的网盘信息
                             var parts = nextTask.TorrentName.Split('|');
                             if (parts.Length >= 4)
@@ -359,7 +388,15 @@ namespace IsparkDownloader2.Core
                 {
                     _ = Task.Run(async () =>
                     {
-                        await _httpEngine.DownloadAsync(nextTask);
+                        try
+                        {
+                            await _httpEngine.DownloadAsync(nextTask);
+                        }
+                        catch (Exception ex)
+                        {
+                            nextTask.Status = DownloadStatus.Failed;
+                            nextTask.ErrorMessage = ex.Message;
+                        }
                         TaskStatusChanged?.Invoke(this, EventArgs.Empty);
                         await ProcessQueueAsync();
                     });
@@ -383,6 +420,39 @@ namespace IsparkDownloader2.Core
         }
 
         private void OnTorrentDownloadCompleted(object? sender, string taskId)
+        {
+            TaskStatusChanged?.Invoke(this, EventArgs.Empty);
+            _ = ProcessQueueAsync();
+        }
+
+        // ===== HTTP 引擎事件处理 =====
+
+        private void OnHttpProgressChanged(object? sender, DownloadProgress e)
+        {
+            // 查找当前正在下载的 HTTP 任务并更新进度
+            var task = _tasks.FirstOrDefault(t => t.Status == DownloadStatus.Downloading &&
+                (t.Type == DownloadType.Http || t.Type == DownloadType.Https || t.Type == DownloadType.Ftp));
+            if (task == null) return;
+
+            task.DownloadedSize = e.DownloadedBytes;
+            task.TotalSize = e.TotalBytes;
+            task.Speed = e.Speed;
+            task.Progress = (int)e.Progress;
+            TaskStatusChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnHttpStatusChanged(object? sender, string status)
+        {
+            TaskStatusChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnHttpDownloadCompleted(object? sender, EventArgs e)
+        {
+            TaskStatusChanged?.Invoke(this, EventArgs.Empty);
+            _ = ProcessQueueAsync();
+        }
+
+        private void OnHttpDownloadFailed(object? sender, Exception e)
         {
             TaskStatusChanged?.Invoke(this, EventArgs.Empty);
             _ = ProcessQueueAsync();

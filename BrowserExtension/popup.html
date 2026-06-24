@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IsparkDownloader2</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="header">
+        <img src="icons/icon32.png" alt="logo" class="logo">
+        <h1>IsparkDownloader2</h1>
+        <span class="version">v1.0</span>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="detected">检测到的链接</button>
+        <button class="tab-btn" data-tab="all">所有链接</button>
+    </div>
+
+    <div class="toolbar">
+        <button id="refreshBtn" class="btn btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            刷新
+        </button>
+        <button id="clearBtn" class="btn btn-secondary">清空</button>
+        <button id="downloadAllBtn" class="btn btn-primary">全部下载</button>
+    </div>
+
+    <div id="detectedTab" class="tab-content active">
+        <div id="detectedList" class="link-list">
+            <div class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <p>未检测到下载链接</p>
+                <span>浏览包含下载文件的页面时，链接将自动显示在这里</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="allTab" class="tab-content">
+        <div id="allList" class="link-list">
+            <div class="empty-state">
+                <p>加载中...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <label class="setting">
+            <input type="checkbox" id="hoverDownload" checked>
+            <span>鼠标悬停显示下载按钮</span>
+        </label>
+        <label class="setting">
+            <input type="checkbox" id="autoDownload">
+            <span>自动发送到下载器</span>
+        </label>
+        <label class="setting">
+            <input type="checkbox" id="interceptDownload" checked>
+            <span>拦截浏览器下载</span>
+        </label>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

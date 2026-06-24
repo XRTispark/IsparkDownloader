@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎使用 IsparkDownloader2 插件</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+        h1 { font-size: 32px; margin-bottom: 12px; }
+        .subtitle { color: #8b949e; font-size: 16px; }
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+        h2 { font-size: 20px; margin-bottom: 16px; color: #58a6ff; }
+        p { margin-bottom: 12px; color: #c9d1d9; }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .step-num {
+            width: 32px;
+            height: 32px;
+            background: #238636;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .step-content h3 { font-size: 16px; margin-bottom: 6px; }
+        .step-content p { color: #8b949e; margin: 0; }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .feature {
+            background: #21262d;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        .feature h4 { font-size: 14px; margin-bottom: 4px; }
+        .feature p { font-size: 12px; color: #8b949e; margin: 0; }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #238636;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-top: 16px;
+        }
+        .btn:hover { background: #2ea043; }
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            color: #6e7681;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">&#11015;</div>
+            <h1>IsparkDownloader2 插件</h1>
+            <p class="subtitle">一键捕获页面下载链接，发送到下载器进行高速下载</p>
+        </div>
+
+        <div class="card">
+            <h2>使用步骤</h2>
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>浏览网页</h3>
+                    <p>访问包含下载链接的页面（GitHub Release、软件下载站、网盘分享等）</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>点击插件图标</h3>
+                    <p>点击浏览器工具栏上的 IsparkDownloader2 图标，查看检测到的下载链接</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>选择下载</h3>
+                    <p>点击单个链接的下载按钮，或点击"全部下载"批量发送到下载器</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>功能特性</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">&#128269;</div>
+                    <h4>自动检测</h4>
+                    <p>智能识别页面中的下载链接</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">&#128230;</div>
+                    <h4>多格式支持</h4>
+                    <p>支持 EXE、ZIP、PDF、MP4 等常见格式</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">&#127760;</div>
+                    <h4>GitHub 加速</h4>
+                    <p>自动识别 GitHub Release 链接</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">&#9889;</div>
+                    <h4>一键发送</h4>
+                    <p>快速发送到 IsparkDownloader2</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>注意事项</h2>
+            <p>1. 确保 IsparkDownloader2 桌面应用已安装并运行</p>
+            <p>2. 插件通过 Native Messaging 与下载器通信，首次使用需要在浏览器中确认权限</p>
+            <p>3. 如果无法连接到下载器，链接将自动复制到剪贴板</p>
+            <p>4. 支持 Chrome、Edge、Firefox 等基于 Chromium 的浏览器</p>
+        </div>
+
+        <div class="footer">
+            <p>IsparkDownloader2 &copy; 2024</p>
+        </div>
+    </div>
+</body>
+</html>

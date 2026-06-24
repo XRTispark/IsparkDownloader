@@ -1,0 +1,186 @@
+<Window x:Class="IsparkDownloader2.Views.TaskDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="任务详情" Height="520" Width="520"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        Background="{StaticResource BgBrush}">
+
+    <Border Padding="24" Background="{StaticResource BgBrush}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- 标题 -->
+                <TextBlock Text="任务详情" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,16"/>
+
+                <!-- 基本信息 -->
+                <TextBlock Text="基本信息" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                <Border Background="{StaticResource CardBackgroundBrush}" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="任务ID" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Id}" Style="{StaticResource ValueText}" TextTrimming="CharacterEllipsis"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="文件名" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding FileName}" Style="{StaticResource ValueText}" TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="下载链接" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Url}" Style="{StaticResource ValueText}" TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="保存路径" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding SavePath}" Style="{StaticResource ValueText}" TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="任务类型" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Type}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="文件类型" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding FileType}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="创建时间" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding CreateTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Style="{StaticResource ValueText}"/>
+                    </Grid>
+                </Border>
+
+                <!-- 下载信息 -->
+                <TextBlock Text="下载信息" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                <Border Background="{StaticResource CardBackgroundBrush}" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="状态" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding StatusText}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="总大小" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding TotalSize, StringFormat={}{0:N0} 字节}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="已下载" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding DownloadedSize, StringFormat={}{0:N0} 字节}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="进度" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Progress, StringFormat={}{0}%}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="当前速度" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SpeedText}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="线程数" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ThreadCount}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="分段数" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding SegmentCount}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="已完成分段" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding CompletedSegments}" Style="{StaticResource ValueText}"/>
+                    </Grid>
+                </Border>
+
+                <!-- 连接信息 -->
+                <TextBlock Text="连接信息" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"/>
+                <Border Background="{StaticResource CardBackgroundBrush}" CornerRadius="8" Padding="16" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="User-Agent" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UserAgent}" Style="{StaticResource ValueText}" TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Referer" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Referer}" Style="{StaticResource ValueText}" TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="代理地址" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ProxyUrl}" Style="{StaticResource ValueText}" TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="浏览器模拟" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding UseBrowserSimulation, Converter={StaticResource BoolToYesNoConverter}}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Cookie数量" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding CookieCount}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="LocalStorage" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding LocalStorageCount}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="服务器信息" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding ServerInfo}" Style="{StaticResource ValueText}" TextWrapping="Wrap"/>
+                    </Grid>
+                </Border>
+
+                <!-- BT 信息（仅 BT 任务显示） -->
+                <TextBlock Text="BT 信息" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,8"
+                           Visibility="{Binding Type, Converter={StaticResource DownloadTypeToVisibilityConverter}}"/>
+                <Border Background="{StaticResource CardBackgroundBrush}" CornerRadius="8" Padding="16" Margin="0,0,0,16"
+                        Visibility="{Binding Type, Converter={StaticResource DownloadTypeToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="InfoHash" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding InfoHash}" Style="{StaticResource ValueText}" TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="种子数" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Seeds}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Peer数" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Peers}" Style="{StaticResource ValueText}"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="上传速度" Style="{StaticResource LabelText}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding UploadSpeed, StringFormat={}{0:F2} KB/s}" Style="{StaticResource ValueText}"/>
+                    </Grid>
+                </Border>
+
+                <!-- 错误信息 -->
+                <TextBlock Text="错误信息" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource DangerBrush}" Margin="0,0,0,8"
+                           Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"/>
+                <Border Background="{StaticResource CardBackgroundBrush}" CornerRadius="8" Padding="16" Margin="0,0,0,16"
+                        Visibility="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                    <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap"/>
+                </Border>
+
+                <!-- 关闭按钮 -->
+                <Button Content="关闭" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Right" Width="80" Click="CloseButton_Click" Margin="0,8,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</Window>

@@ -4,54 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="选择要下载的文件" 
+        Title="选择要下载的文件"
         Height="550" Width="650"
         WindowStartupLocation="CenterOwner"
-        Background="#FF1E1E1E">
-
-    <Window.Resources>
-        <Style x:Key="ModernButton" TargetType="Button">
-            <Setter Property="Background" Value="#FF3C3C3C"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="12,6"/>
-            <Setter Property="Margin" Value="4"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FF505050"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ActionButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
-            <Setter Property="Background" Value="#FF0078D4"/>
-        </Style>
-
-        <Style TargetType="ListViewItem">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="8,5"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#FF3C3C3C"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF333333"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
+        Background="{StaticResource BgBrush}"
+        Foreground="{StaticResource TextPrimaryBrush}"
+        FontFamily="{StaticResource FontFamilyBase}"
+        FontSize="13">
 
     <Grid Margin="15">
         <Grid.RowDefinitions>
@@ -62,29 +21,30 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="网盘分享文件列表" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+        <TextBlock Grid.Row="0" Text="网盘分享文件列表" Foreground="{StaticResource TextPrimaryBrush}" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
 
         <Grid Grid.Row="1" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="保存路径:" Foreground="#FFAAAAAA" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <TextBox Grid.Column="1" x:Name="SavePathTextBox" Background="#FF2D2D2D" Foreground="White"
-                     BorderBrush="#FF3C3C3C" Padding="8,5" BorderThickness="1"/>
+            <TextBlock Text="保存路径:" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox Grid.Column="1" x:Name="SavePathTextBox" Style="{StaticResource ModernTextBox}"/>
         </Grid>
 
-        <Border Grid.Row="2" Background="#FF252525" CornerRadius="6">
+        <Border Grid.Row="2" Background="{StaticResource BgElevatedBrush}" CornerRadius="6">
             <ListView x:Name="FileListView" Background="Transparent" BorderThickness="0"
-                      SelectionMode="Extended">
+                      SelectionMode="Extended"
+                      Style="{StaticResource ModernListView}"
+                      ItemContainerStyle="{StaticResource ModernListViewItem}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="文件名" Width="300">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding FileName}" Foreground="White" VerticalAlignment="Center"/>
-                                        <TextBlock Text=" [文件夹]" Foreground="#FF4FC3F7" FontSize="10"
+                                        <TextBlock Text="{Binding FileName}" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                        <TextBlock Text=" [文件夹]" Foreground="{StaticResource AccentBrush}" FontSize="10"
                                                    Visibility="{Binding IsFolder, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                    VerticalAlignment="Center"/>
                                     </StackPanel>
@@ -94,8 +54,8 @@
                         <GridViewColumn Header="大小" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding FileSize, StringFormat={}{0:F2} MB}" 
-                                               Foreground="#FFAAAAAA"
+                                    <TextBlock Text="{Binding FileSize, StringFormat={}{0:F2} MB}"
+                                               Foreground="{StaticResource TextSecondaryBrush}"
                                                Visibility="{Binding IsFolder, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -103,7 +63,7 @@
                         <GridViewColumn Header="修改时间" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ModifyTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" Foreground="#FFAAAAAA"/>
+                                    <TextBlock Text="{Binding ModifyTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" Foreground="{StaticResource TextSecondaryBrush}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -112,12 +72,12 @@
             </ListView>
         </Border>
 
-        <TextBlock Grid.Row="3" x:Name="StatusText" Text="请选择要下载的文件" Foreground="#FFAAAAAA" FontSize="12" Margin="0,8"/>
+        <TextBlock Grid.Row="3" x:Name="StatusText" Text="请选择要下载的文件" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" Margin="0,8"/>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="全选" Style="{StaticResource ModernButton}" Click="SelectAll_Click"/>
-            <Button Content="下载选中" Style="{StaticResource ActionButton}" Click="DownloadSelected_Click"/>
-            <Button Content="取消" Style="{StaticResource ModernButton}" Click="Cancel_Click"/>
+            <Button Content="全选" Style="{StaticResource BaseButton}" Click="SelectAll_Click"/>
+            <Button Content="下载选中" Style="{StaticResource PrimaryButton}" Click="DownloadSelected_Click"/>
+            <Button Content="取消" Style="{StaticResource BaseButton}" Click="Cancel_Click"/>
         </StackPanel>
     </Grid>
 </Window>

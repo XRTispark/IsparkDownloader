@@ -1,5 +1,4 @@
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using IsparkDownloader2.Core;
@@ -12,17 +11,17 @@ namespace IsparkDownloader2
         private UpdateChecker? _updateChecker;
         private ConfigManager? _configManager;
 
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             _configManager = new ConfigManager();
 
-            // 启动时检查更新（如果启用）
+            // 异步检查更新，不阻塞 UI 显示
             var autoCheck = _configManager.Get("AutoCheckUpdate", true);
             if (autoCheck)
             {
-                await CheckForUpdateAsync(silent: true);
+                _ = CheckForUpdateAsync(silent: true);
             }
         }
 
@@ -31,51 +30,55 @@ namespace IsparkDownloader2
         /// </summary>
         public async Task CheckForUpdateAsync(bool silent = false)
         {
-            _updateChecker ??= new UpdateChecker();
-
-            // 检查是否跳过此版本
-            var skippedVersion = _configManager?.Get("SkippedVersion", "") ?? "";
-
-            _updateChecker.UpdateAvailable += (s, versionInfo) =>
+            try
             {
-                // 如果用户跳过了这个版本，不再提示
-                if (!string.IsNullOrEmpty(skippedVersion) && skippedVersion == versionInfo.Version)
-                    return;
+                _updateChecker ??= new UpdateChecker();
 
-                Application.Current.Dispatcher.Invoke(() =>
+                var skippedVersion = _configManager?.Get("SkippedVersion", "") ?? "";
+
+                _updateChecker.UpdateAvailable += (s, versionInfo) =>
                 {
-                    var updateWindow = new UpdateWindow(versionInfo, _updateChecker!);
-                    updateWindow.Owner = Application.Current.MainWindow;
-                    updateWindow.ShowDialog();
+                    if (!string.IsNullOrEmpty(skippedVersion) && skippedVersion == versionInfo.Version)
+                        return;
 
-                    if (updateWindow.ShouldSkipVersion)
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        // 记录跳过的版本
-                        _configManager?.Set("SkippedVersion", versionInfo.Version);
-                    }
-                });
-            };
+                        var updateWindow = new UpdateWindow(versionInfo, _updateChecker!);
+                        updateWindow.Owner = Application.Current.MainWindow;
+                        updateWindow.ShowDialog();
 
-            _updateChecker.CheckFailed += (s, message) =>
-            {
-                if (!silent)
+                        if (updateWindow.ShouldSkipVersion)
+                        {
+                            _configManager?.Set("SkippedVersion", versionInfo.Version);
+                        }
+                    });
+                };
+
+                _updateChecker.CheckFailed += (s, message) =>
+                {
+                    if (!silent)
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            MessageBox.Show(message, "检查更新失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        });
+                    }
+                };
+
+                _updateChecker.UpdateFailed += (s, message) =>
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        MessageBox.Show(message, "检查更新失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show(message, "更新失败", MessageBoxButton.OK, MessageBoxImage.Error);
                     });
-                }
-            };
+                };
 
-            _updateChecker.UpdateFailed += (s, message) =>
+                await _updateChecker.CheckForUpdateAsync(silent);
+            }
+            catch
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    MessageBox.Show(message, "更新失败", MessageBoxButton.OK, MessageBoxImage.Error);
-                });
-            };
-
-            await _updateChecker.CheckForUpdateAsync(silent);
+                // 静默模式不报错
+            }
         }
 
         protected override void OnExit(ExitEventArgs e)

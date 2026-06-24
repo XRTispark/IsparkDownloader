@@ -50,6 +50,21 @@ namespace IsparkDownloader2.Models
         private string _torrentFilePath = string.Empty;
         private string _torrentName = string.Empty;
 
+        // 详情字段（用于右键详情窗口）
+        private int _segmentCount = 0;
+        private int _completedSegments = 0;
+        private int _activeConnections = 0;
+        private string _userAgent = string.Empty;
+        private string _referer = string.Empty;
+        private int _cookieCount = 0;
+        private int _localStorageCount = 0;
+        private string _proxyUrl = string.Empty;
+        private bool _useBrowserSimulation = false;
+        private string _fileType = string.Empty;
+        private string _serverInfo = string.Empty;
+        private DateTime? _startTime;
+        private TimeSpan? _elapsedTime;
+
         public string Id
         {
             get => _id;
@@ -83,6 +98,7 @@ namespace IsparkDownloader2.Models
             {
                 _totalSize = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SizeText));
                 UpdateProgress();
             }
         }
@@ -94,6 +110,7 @@ namespace IsparkDownloader2.Models
             {
                 _downloadedSize = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SizeText));
                 UpdateProgress();
             }
         }
@@ -101,13 +118,23 @@ namespace IsparkDownloader2.Models
         public DownloadStatus Status
         {
             get => _status;
-            set { _status = value; OnPropertyChanged(); }
+            set
+            {
+                _status = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StatusText));
+            }
         }
 
         public double Speed
         {
             get => _speed;
-            set { _speed = value; OnPropertyChanged(); }
+            set
+            {
+                _speed = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SpeedText));
+            }
         }
 
         public int Progress
@@ -188,6 +215,86 @@ namespace IsparkDownloader2.Models
         {
             get => _torrentName;
             set { _torrentName = value; OnPropertyChanged(); }
+        }
+
+        // ========== 详情属性 ==========
+
+        public int SegmentCount
+        {
+            get => _segmentCount;
+            set { _segmentCount = value; OnPropertyChanged(); }
+        }
+
+        public int CompletedSegments
+        {
+            get => _completedSegments;
+            set { _completedSegments = value; OnPropertyChanged(); }
+        }
+
+        public int ActiveConnections
+        {
+            get => _activeConnections;
+            set { _activeConnections = value; OnPropertyChanged(); }
+        }
+
+        public string UserAgent
+        {
+            get => _userAgent;
+            set { _userAgent = value; OnPropertyChanged(); }
+        }
+
+        public string Referer
+        {
+            get => _referer;
+            set { _referer = value; OnPropertyChanged(); }
+        }
+
+        public int CookieCount
+        {
+            get => _cookieCount;
+            set { _cookieCount = value; OnPropertyChanged(); }
+        }
+
+        public int LocalStorageCount
+        {
+            get => _localStorageCount;
+            set { _localStorageCount = value; OnPropertyChanged(); }
+        }
+
+        public string ProxyUrl
+        {
+            get => _proxyUrl;
+            set { _proxyUrl = value; OnPropertyChanged(); }
+        }
+
+        public bool UseBrowserSimulation
+        {
+            get => _useBrowserSimulation;
+            set { _useBrowserSimulation = value; OnPropertyChanged(); }
+        }
+
+        public string FileType
+        {
+            get => _fileType;
+            set { _fileType = value; OnPropertyChanged(); }
+        }
+
+        public string ServerInfo
+        {
+            get => _serverInfo;
+            set { _serverInfo = value; OnPropertyChanged(); }
+        }
+
+        public DateTime? StartTime
+        {
+            get => _startTime;
+            set { _startTime = value; OnPropertyChanged(); }
+        }
+
+        public TimeSpan? ElapsedTime
+        {
+            get => _elapsedTime;
+            set { _elapsedTime = value; OnPropertyChanged(); }
         }
 
         public string SeedsPeersText => $"S: {_seeds} P: {_peers}";

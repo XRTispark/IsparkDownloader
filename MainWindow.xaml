@@ -6,11 +6,14 @@
         xmlns:vm="clr-namespace:IsparkDownloader2.ViewModels"
         xmlns:conv="clr-namespace:IsparkDownloader2.Converters"
         mc:Ignorable="d"
-        Title="IsparkDownloader" 
+        Title="IsparkDownloader"
         Height="720" Width="1200"
         MinHeight="520" MinWidth="900"
         WindowStartupLocation="CenterScreen"
-        Style="{StaticResource ModernWindow}">
+        Background="{StaticResource BgBrush}"
+        Foreground="{StaticResource TextPrimaryBrush}"
+        FontFamily="{StaticResource FontFamilyBase}"
+        FontSize="13">
 
     <Window.DataContext>
         <vm:MainViewModel x:Name="ViewModel"/>
@@ -19,11 +22,14 @@
     <Window.Resources>
         <conv:StatusToColorConverter x:Key="StatusToColorConverter"/>
         <conv:SpeedToVisibilityConverter x:Key="SpeedToVisibilityConverter"/>
+        <conv:ProgressToWidthConverter x:Key="ProgressToWidthConverter"/>
 
         <DataTemplate x:Key="TaskItemTemplate">
-            <Border Background="{StaticResource BgElevatedBrush}" CornerRadius="10" Padding="14" Margin="0,3">
+            <Border Background="{StaticResource BgElevatedBrush}" CornerRadius="10" Padding="14" Margin="0,3"
+                    MouseRightButtonUp="TaskItem_MouseRightButtonUp">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -116,6 +122,16 @@
                                    Margin="12,0,0,0"
                                    VerticalAlignment="Center"/>
                     </Grid>
+
+                    <!-- Row 4: Error message -->
+                    <TextBlock Grid.Row="3"
+                               Text="{Binding ErrorMessage}"
+                               Foreground="{StaticResource DangerBrush}"
+                               FontSize="11"
+                               TextTrimming="CharacterEllipsis"
+                               MaxWidth="580"
+                               Margin="0,4,0,0"
+                               Visibility="{Binding ErrorMessage, Converter={StaticResource SpeedToVisibilityConverter}}"/>
                 </Grid>
             </Border>
         </DataTemplate>
@@ -252,6 +268,10 @@
                     <Button Content="&#x1F504; 检查更新"
                             Style="{StaticResource BaseButton}"
                             Command="{Binding CheckUpdateCommand}"
+                            Padding="12,6"/>
+                    <Button Content="&#x1F310; 浏览器模拟"
+                            Style="{StaticResource BaseButton}"
+                            Command="{Binding ShowBrowserSimCommand}"
                             Padding="12,6"/>
                 </WrapPanel>
 

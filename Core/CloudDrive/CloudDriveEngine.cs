@@ -19,7 +19,7 @@ namespace IsparkDownloader2.Core.CloudDrive
 
         public CloudDriveConfigManager ConfigManager => _configManager;
 
-        public event EventHandler<DownloadProgressEventArgs>? ProgressChanged
+        public event EventHandler<DownloadProgress>? ProgressChanged
         {
             add => _httpEngine.ProgressChanged += value;
             remove => _httpEngine.ProgressChanged -= value;
@@ -31,16 +31,16 @@ namespace IsparkDownloader2.Core.CloudDrive
             remove => _httpEngine.DownloadCompleted -= value;
         }
 
-        public event EventHandler<string>? DownloadFailed
+        public event EventHandler<Exception>? DownloadFailed
         {
             add => _httpEngine.DownloadFailed += value;
             remove => _httpEngine.DownloadFailed -= value;
         }
 
-        public CloudDriveEngine(CloudDriveConfigManager configManager)
+        public CloudDriveEngine(CloudDriveConfigManager configManager, BrowserSimulator? browserSimulator = null)
         {
             _configManager = configManager;
-            _httpEngine = new DownloadEngine();
+            _httpEngine = new DownloadEngine(null!, browserSimulator);
             _httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
 
             _apis = new Dictionary<CloudDriveType, ICloudDriveApi>
@@ -112,7 +112,8 @@ namespace IsparkDownloader2.Core.CloudDrive
                     return await DownloadWithAuthAsync(task, downloadUrl, accessToken!);
                 }
 
-                return await _httpEngine.DownloadAsync(task);
+                await _httpEngine.DownloadAsync(task);
+                return task.Status == DownloadStatus.Completed;
             }
             catch (Exception ex)
             {
@@ -170,7 +171,8 @@ namespace IsparkDownloader2.Core.CloudDrive
                     return await DownloadWithAuthAsync(task, downloadUrl, account.AccessToken);
                 }
 
-                return await _httpEngine.DownloadAsync(task);
+                await _httpEngine.DownloadAsync(task);
+                return task.Status == DownloadStatus.Completed;
             }
             catch (Exception ex)
             {
@@ -298,12 +300,12 @@ namespace IsparkDownloader2.Core.CloudDrive
 
         public void PauseDownload(string taskId)
         {
-            _httpEngine.PauseDownload(taskId);
+            _httpEngine.Pause();
         }
 
         public void CancelDownload(string taskId)
         {
-            _httpEngine.CancelDownload(taskId);
+            _httpEngine.Cancel();
         }
 
         /// <summary>

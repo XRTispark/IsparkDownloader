@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="设置"
         Height="560" Width="640"
-        Style="{StaticResource ModernWindow}"
+        Background="{StaticResource BgBrush}"
+        Foreground="{StaticResource TextPrimaryBrush}"
+        FontFamily="{StaticResource FontFamilyBase}"
+        FontSize="13"
         ResizeMode="CanResize">
 
     <Grid Margin="24">
@@ -19,7 +22,7 @@
             <StackPanel>
                 <!-- Download Settings -->
                 <TextBlock Text="下载设置" Foreground="{StaticResource AccentBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
-                <Border Style="{StaticResource Card}">
+                <Border Background="{StaticResource BgElevatedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16" Margin="0,4">
                     <StackPanel>
                         <Grid Margin="0,6">
                             <Grid.ColumnDefinitions>
@@ -55,11 +58,11 @@
                     </StackPanel>
                 </Border>
 
-                <Separator Style="{StaticResource ModernSeparator}"/>
+                <Separator Background="{StaticResource BorderBrush}" Height="1" Margin="0,12"/>
 
                 <!-- Behavior Settings -->
                 <TextBlock Text="行为设置" Foreground="{StaticResource AccentBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
-                <Border Style="{StaticResource Card}">
+                <Border Background="{StaticResource BgElevatedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16" Margin="0,4">
                     <StackPanel>
                         <CheckBox x:Name="AutoStartCheckBox" Content="添加任务后自动开始下载" Style="{StaticResource ModernCheckBox}"/>
                         <CheckBox x:Name="NotificationCheckBox" Content="下载完成后显示通知" Style="{StaticResource ModernCheckBox}"/>
@@ -67,11 +70,11 @@
                     </StackPanel>
                 </Border>
 
-                <Separator Style="{StaticResource ModernSeparator}"/>
+                <Separator Background="{StaticResource BorderBrush}" Height="1" Margin="0,12"/>
 
                 <!-- Update Settings -->
                 <TextBlock Text="更新设置" Foreground="{StaticResource AccentBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
-                <Border Style="{StaticResource Card}">
+                <Border Background="{StaticResource BgElevatedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16" Margin="0,4">
                     <StackPanel>
                         <CheckBox x:Name="AutoCheckUpdateCheckBox" Content="启动时自动检查更新" Style="{StaticResource ModernCheckBox}"/>
                         <Grid Margin="0,8">
@@ -85,11 +88,11 @@
                     </StackPanel>
                 </Border>
 
-                <Separator Style="{StaticResource ModernSeparator}"/>
+                <Separator Background="{StaticResource BorderBrush}" Height="1" Margin="0,12"/>
 
                 <!-- Network Settings -->
                 <TextBlock Text="网络设置" Foreground="{StaticResource AccentBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
-                <Border Style="{StaticResource Card}">
+                <Border Background="{StaticResource BgElevatedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16" Margin="0,4">
                     <StackPanel>
                         <Grid Margin="0,6">
                             <Grid.ColumnDefinitions>

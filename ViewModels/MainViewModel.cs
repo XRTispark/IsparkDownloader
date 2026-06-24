@@ -105,6 +105,8 @@ namespace IsparkDownloader2.ViewModels
         public ICommand ParseCloudShareCommand { get; }
         // 更新命令
         public ICommand CheckUpdateCommand { get; }
+        // 浏览器模拟命令
+        public ICommand ShowBrowserSimCommand { get; }
 
         public AppConfig Config => _configManager.Config;
         public CloudDriveEngine CloudDriveEngine => _taskManager.CloudDriveEngine;
@@ -143,6 +145,7 @@ namespace IsparkDownloader2.ViewModels
             ShowCloudDriveConfigCommand = new RelayCommand(_ => ShowCloudDriveConfig());
             ParseCloudShareCommand = new RelayCommand(_ => ParseCloudShareLink(), _ => !string.IsNullOrWhiteSpace(NewUrl));
             CheckUpdateCommand = new RelayCommand(_ => CheckUpdate(), _ => true);
+            ShowBrowserSimCommand = new RelayCommand(_ => ShowBrowserSim());
 
             UpdateStats();
         }
@@ -311,6 +314,13 @@ namespace IsparkDownloader2.ViewModels
         }
 
         // ===== 更新方法 =====
+
+        /// <summary>显示浏览器模拟设置窗口</summary>
+        private void ShowBrowserSim()
+        {
+            var window = new Views.BrowserSimWindow(_taskManager.BrowserSimulator);
+            window.ShowDialog();
+        }
 
         /// <summary>手动检查更新</summary>
         private async void CheckUpdate()

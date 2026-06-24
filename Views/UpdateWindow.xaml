@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="发现新版本"
         Height="480" Width="520"
-        Style="{StaticResource ModernWindow}"
+        Background="{StaticResource BgBrush}"
+        Foreground="{StaticResource TextPrimaryBrush}"
+        FontFamily="{StaticResource FontFamilyBase}"
+        FontSize="13"
         ResizeMode="NoResize">
 
     <Grid Margin="28">
